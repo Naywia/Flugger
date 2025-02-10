@@ -20,6 +20,6 @@ Not known yet
 Not known yet
 
 ## **Developers**
-Mikkel Paulick  
-Rasmus Nørby  
-Maya Wettendorff
+mrpink32  
+r4sNorby  
+Naywia
