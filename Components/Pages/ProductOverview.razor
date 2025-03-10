@@ -1,0 +1,43 @@
+@page "/"
+@using Flügger.Controllers
+@using Flügger.Models
+<PageTitle>ProductOverview</PageTitle>
+
+<div id="product-table-container">
+    <table class="product-table">
+        <tr class="product-table-header">
+            @foreach (var property in typeof(Product).GetProperties())
+            {
+                <th>
+                    @if (!property.Name.Equals("ImagePath"))
+                    {
+                        @property.GetDanishName()
+                    }
+                </th>
+            }
+        </tr>
+        @foreach (var product in ProductController.GetProducts())
+        {
+            <tr>
+                @foreach (var property in product.GetType().GetProperties())
+                {
+                    <td>
+                        @if (property.Name.Equals("ImagePath"))
+                        {
+                            <img class="product-img" src="@property.GetValue(product)" alt=""/>
+                        }
+                        else
+                        {
+                            @property.GetValue(product)
+                        }
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+</div>
+
+@code {
+    
+    
+}

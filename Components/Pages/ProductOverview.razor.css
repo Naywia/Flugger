@@ -1,0 +1,39 @@
+#product-table-container {
+    box-sizing: border-box;
+    padding: 2rem;
+    width: 100%;
+}
+
+.product-table {
+    width: 100%;
+    font-size: 1.3em;
+    text-align: center;
+    border-spacing: 0 1rem;
+}
+
+.product-table-header {
+    background-color: #404040;
+    color: white;
+    height: 3rem;
+}
+
+.product-table tr:not(:has(th)) {
+    background-color: #e4e4e4;
+    height: 5rem;
+}
+
+.product-table tr td:first-child {
+    width: 5rem !important;
+}
+
+.product-table td {
+    padding: .4rem;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.product-img {
+    height: 5rem;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
