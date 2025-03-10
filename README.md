@@ -13,9 +13,11 @@ This project is not intended for installation as it is a school project, still u
 
 ## **Technologies**
 #### Language:  
-Not known yet   
+C#
+
 #### Framework:  
-Not known yet
+Blazor
+
 #### Database:  
 Not known yet
 
