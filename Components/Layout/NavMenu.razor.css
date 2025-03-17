@@ -33,15 +33,24 @@
         justify-content: center;
         text-decoration: none;
         color: white;
+        font-weight: bold;
+        padding: 0 2em;
+        box-sizing: border-box;
     }
 
+.inner-nav-item ::deep .nav-link {
+    justify-content: end;
+    font-weight: normal;
+}
 
-.nav-item ::deep a.active {
-    font-weight: bold;
+
+.nav-item ::deep a.active,
+.inner-nav-item ::deep a.active {
+    background-color: rgba(0,0,0,0.1);
     color: white;
 }
 
 .nav-item ::deep .nav-link:hover {
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(0,0,0,0.2);
     color: white;
 }
