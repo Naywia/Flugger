@@ -3,41 +3,88 @@
 @using Flügger.Models
 <PageTitle>ProductOverview</PageTitle>
 
-<div id="product-table-container">
-    <table class="product-table">
-        <tr class="product-table-header">
-            @foreach (var property in typeof(Product).GetProperties())
-            {
-                <th>
-                    @if (!property.Name.Equals("ImagePath"))
-                    {
-                        @property.GetDanishName()
-                    }
-                </th>
-            }
-        </tr>
-        @foreach (var product in ProductController.GetProducts())
-        {
-            <tr>
-                @foreach (var property in product.GetType().GetProperties())
-                {
-                    <td>
-                        @if (property.Name.Equals("ImagePath"))
-                        {
-                            <img class="product-img" src="@property.GetValue(product)" alt=""/>
-                        }
-                        else
-                        {
-                            @property.GetValue(product)
-                        }
-                    </td>
-                }
-            </tr>
-        }
-    </table>
+<div id="view-switch">
+    <input type="checkbox" id="toggle" class="toggleCheckbox" @onclick="SwitchView" />
+    <label for="toggle" class="toggleContainer">
+        <span><img src="/images/icons/table.svg" />Tabel</span>
+        <span><img src="/images/icons/grid.svg" />Gitter</span>
+    </label>
 </div>
 
+@if (view == true)
+{
+    <div id="product-table-container">
+        <table class="product-table">
+            <tr class="product-table-header">
+                @foreach (var property in typeof(Product).GetProperties())
+                {
+                    <th>
+                        @if (!property.Name.Equals("ImagePath"))
+                        {
+                            @property.GetDanishName()
+                        }
+                    </th>
+                }
+                <th></th>
+            </tr>
+            @foreach (var product in ProductController.GetProducts())
+            {
+                <tr>
+                    @foreach (var property in product.GetType().GetProperties())
+                    {
+                        <td>
+                            @if (property.Name.Equals("ImagePath"))
+                            {
+                                <img class="product-img" src="@property.GetValue(product)" alt="" />
+                            }
+                            else
+                            {
+                                @property.GetValue(product)
+                            }
+                        </td>
+                    }
+                    <td>
+                        <button>Bestil genopfyldning</button>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+}
+else
+{
+    <div id="product-box-container">
+        @foreach (var product in ProductController.GetProducts())
+        {
+            <div class="product-box">
+                @foreach (var property in product.GetType().GetProperties())
+                {
+                    @if (property.Name.Equals("ImagePath"))
+                    {
+                        <img class="product-img" src="@property.GetValue(product)" alt="" />
+                    }
+                }
+                <div class="product-box-inner">
+                    @foreach (var property in product.GetType().GetProperties())
+                    {
+                        @if (!property.Name.Equals("ImagePath"))
+                        {
+                            <p>
+                                <span>
+                                    @property.GetDanishName():
+                                </span>
+                                @property.GetValue(product)
+                            </p>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}
+
 @code {
-    
-    
+    private bool view = true;
+
+    private void SwitchView() => view = !view;
 }
