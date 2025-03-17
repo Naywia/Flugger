@@ -1,0 +1,40 @@
+@page "/salesoverview"
+@using Flügger.Controllers
+@using Flügger.Models
+<PageTitle>ProductOverview</PageTitle>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['produkt-kategori', 'procent-del'],
+          ['Maling',     11],
+          ['Pensler',      2],
+          ['Lak',  5],
+          ['Værktøj', 4],
+        ]);
+
+        var options = {
+          title: 'Procentvis salgs fordelling',
+          titleTextStyle: {
+            color: 'white'
+          },
+          legend: {
+            position: 'bottom', 
+            textStyle: {
+              color: 'white'
+            }
+          },
+          backgroundColor: '#252f62'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+</script>
+<div id="piechart" style="width: 100%; height: 500px;"></div>

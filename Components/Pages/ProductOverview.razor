@@ -15,6 +15,11 @@
                     }
                 </th>
             }
+            <th>
+            </th>
+            <th>
+                <input id="searchbar" placeholder="søg" type="search"/>
+            </th>
         </tr>
         @foreach (var product in ProductController.GetProducts())
         {
@@ -32,6 +37,10 @@
                         }
                     </td>
                 }
+                <td style="width: 100%"></td>
+                <td>
+                    <button class="product-button">Bestil genopfyldning</button>
+                </td>
             </tr>
         }
     </table>
