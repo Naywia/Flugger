@@ -61,13 +61,16 @@ else
         @foreach (var product in ProductController.GetProducts())
         {
             <div class="product-box">
-                @foreach (var property in product.GetType().GetProperties())
-                {
-                    @if (property.Name.Equals("ImagePath"))
+                <div>
+                    @foreach (var property in product.GetType().GetProperties())
                     {
-                        <img class="product-img" src="@property.GetValue(product)" alt="" />
+                        @if (property.Name.Equals("ImagePath"))
+                        {
+                            <img class="product-img" src="@property.GetValue(product)" alt="" />
+                        }
                     }
-                }
+                    <button>Bestil genopfyldning</button>
+                </div>
                 <div class="product-box-inner">
                     @foreach (var property in product.GetType().GetProperties())
                     {

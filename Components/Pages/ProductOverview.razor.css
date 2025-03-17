@@ -114,7 +114,7 @@
 
 #product-table-container {
     box-sizing: border-box;
-    padding: 1em 7rem;
+    padding: 2em 7rem;
     width: 100%;
 }
 
@@ -146,7 +146,7 @@
 }
 
     .product-table td button {
-        background-color: #068f68;
+        background-color: #007b32;
         height: 4em;
         width: 12em;
         border: none;
@@ -165,7 +165,7 @@
     box-sizing: border-box;
     display: grid;
     grid-template-columns: auto auto auto;
-    padding: 4rem 7rem;
+    padding: 2rem 7rem;
     width: 100%;
     gap: 2em;
 }
@@ -186,4 +186,16 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding-left: 1.5em;
+    width: 100%;
 }
+    .product-box button {
+        background-color: #007b32;
+        height: 4em;
+        width: 12em;
+        border: none;
+        border-radius: 10px;
+        color: #ffffff;
+        cursor: pointer;
+        width: 100%;
+    }
