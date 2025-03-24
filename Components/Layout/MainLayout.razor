@@ -1,13 +1,22 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+    @if (isLoggedIn)
+    {
+        <div class="sidebar">
+            <NavMenu />
+        </div>
 
-    <main>
-        @Body
-    </main>
+        <main>
+            @Body
+        </main>
+    }
+    else
+    {
+        <main>
+            <Login />
+        </main>
+    }
 </div>
 
 <div id="blazor-error-ui" data-nosnippet>
@@ -15,3 +24,7 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+@code {
+    bool isLoggedIn = false;
+}
