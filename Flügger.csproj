@@ -6,4 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Bcrypt" Version="1.0.0" />
+    <PackageReference Include="Bcrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="Npgsql" Version="9.0.3" />
+  </ItemGroup>
+
 </Project>

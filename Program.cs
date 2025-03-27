@@ -1,4 +1,6 @@
 using Flügger.Components;
+using Flügger.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace Flügger
 {
@@ -7,6 +9,13 @@ namespace Flügger
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddUserStore<CustomUserStore>()
+                .AddDefaultTokenProviders();
+
+            builder.Services.AddAuthentication();
+            builder.Services.AddAuthorization();
 
             // Add services to the container.
             builder.Services.AddRazorComponents()
@@ -21,6 +30,9 @@ namespace Flügger
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseHttpsRedirection();
 
