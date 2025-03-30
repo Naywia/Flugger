@@ -10,12 +10,16 @@ namespace Flügger
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+            builder.Services.AddIdentityCore<ApplicationUser>()
                 .AddUserStore<CustomUserStore>()
+                .AddSignInManager()
                 .AddDefaultTokenProviders();
 
-            builder.Services.AddAuthentication();
+            builder.Services.AddAuthentication()
+            .AddIdentityCookies();
             builder.Services.AddAuthorization();
+
+            builder.Services.AddHttpContextAccessor();
 
             // Add services to the container.
             builder.Services.AddRazorComponents()

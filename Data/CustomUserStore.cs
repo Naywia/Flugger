@@ -17,18 +17,44 @@
 
         public async Task<IdentityResult> CreateAsync(ApplicationUser user, CancellationToken cancellationToken)
         {
-            using var conn = new NpgsqlConnection(_connectionString);
-            await conn.OpenAsync(cancellationToken);
+            try
+            {
+                using var conn = new NpgsqlConnection(_connectionString);
+                await conn.OpenAsync(cancellationToken);
 
-            var cmd = new NpgsqlCommand("INSERT INTO users (username, email, password_hash, security_stamp, concurrency_stamp) VALUES (@username, @email, @password, @stamp, @concurrency)", conn);
-            cmd.Parameters.AddWithValue("@username", user.UserName);
-            cmd.Parameters.AddWithValue("@email", user.Email);
-            cmd.Parameters.AddWithValue("@password", user.PasswordHash);
-            cmd.Parameters.AddWithValue("@stamp", user.SecurityStamp ?? "");
-            cmd.Parameters.AddWithValue("@concurrency", user.ConcurrencyStamp ?? "");
+                user.Email = user.UserName + "@ucl.flügger.dk";
 
-            await cmd.ExecuteNonQueryAsync(cancellationToken);
-            return IdentityResult.Success;
+                // Ensure required properties are not null
+                if (string.IsNullOrEmpty(user.UserName) || string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.PasswordHash))
+                {
+                    return IdentityResult.Failed(new IdentityError { Description = "Username, Email, and PasswordHash must not be null." });
+                }
+
+                // Hash the password before saving
+                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash);
+
+                var cmd = new NpgsqlCommand(@"
+            INSERT INTO users (username, email, password_hash, security_stamp, concurrency_stamp)
+            VALUES (@username, @email, @password, @stamp, @concurrency)", conn);
+
+                cmd.Parameters.AddWithValue("@username", user.UserName);
+                cmd.Parameters.AddWithValue("@email", user.Email ?? (object)DBNull.Value); // Ensure it's not null
+                cmd.Parameters.AddWithValue("@password", user.PasswordHash);
+                cmd.Parameters.AddWithValue("@stamp", user.SecurityStamp ?? "");
+                cmd.Parameters.AddWithValue("@concurrency", user.ConcurrencyStamp ?? "");
+
+                int result = await cmd.ExecuteNonQueryAsync(cancellationToken);
+
+                if (result > 0)
+                    return IdentityResult.Success;
+
+                return IdentityResult.Failed(new IdentityError { Description = "User creation failed, no rows affected." });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in CreateAsync: {ex.Message}");
+                return IdentityResult.Failed(new IdentityError { Description = $"Exception: {ex.Message}" });
+            }
         }
 
         public async Task<ApplicationUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)

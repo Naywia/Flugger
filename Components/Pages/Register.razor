@@ -4,6 +4,7 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
 @inject NavigationManager Navigation
+@inject IHttpContextAccessor HttpContextAccessor
 
 <h3>Register</h3>
 
@@ -28,10 +29,11 @@
         var user = new ApplicationUser { UserName = registerModel.Username };
         var result = await UserManager.CreateAsync(user, registerModel.Password);
 
-        if (result.Succeeded)
+        var httpContext = HttpContextAccessor.HttpContext;
+        if (httpContext != null && !httpContext.Response.HasStarted)
         {
             await SignInManager.SignInAsync(user, isPersistent: false);
-            Navigation.NavigateTo("/");
+            Navigation.NavigateTo("/", forceLoad: true);
         }
     }
 
