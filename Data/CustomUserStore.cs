@@ -1,4 +1,4 @@
-﻿namespace Flügger.Data
+﻿namespace Flugger.Data
 {
     using Microsoft.AspNetCore.Identity;
     using Npgsql;
@@ -22,7 +22,7 @@
                 using var conn = new NpgsqlConnection(_connectionString);
                 await conn.OpenAsync(cancellationToken);
 
-                user.Email = user.UserName + "@ucl.flügger.dk";
+                user.Email = user.UserName + "@ucl.Flugger.dk";
 
                 // Ensure required properties are not null
                 if (string.IsNullOrEmpty(user.UserName) || string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.PasswordHash))

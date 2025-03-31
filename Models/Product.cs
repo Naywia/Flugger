@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Flügger.Models
+namespace Flugger.Models
 {
     public class Product
     {

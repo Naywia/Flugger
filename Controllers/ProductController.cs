@@ -1,7 +1,7 @@
-﻿using Flügger.Models;
+﻿using Flugger.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Flügger.Controllers
+namespace Flugger.Controllers
 {
     public static class ProductController
     {

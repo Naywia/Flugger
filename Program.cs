@@ -1,8 +1,8 @@
-using Flügger.Components;
-using Flügger.Data;
+using Flugger.Components;
+using Flugger.Data;
 using Microsoft.AspNetCore.Identity;
 
-namespace Flügger
+namespace Flugger
 {
     public class Program
     {

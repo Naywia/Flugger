@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace Flügger
+namespace Flugger
 {
     public static class Extensions
     {
