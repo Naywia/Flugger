@@ -62,7 +62,7 @@
             using var conn = new NpgsqlConnection(_connectionString);
             await conn.OpenAsync(cancellationToken);
 
-            var cmd = new NpgsqlCommand("SELECT id, username, email, password_hash FROM users WHERE username = @username", conn);
+            var cmd = new NpgsqlCommand("SELECT id, username, email, password_hash FROM users WHERE LOWER(username) = LOWER(@username)", conn);
             cmd.Parameters.AddWithValue("@username", normalizedUserName);
             using var reader = await cmd.ExecuteReaderAsync(cancellationToken);
 

@@ -1,19 +1,50 @@
-﻿@using Flugger.Controllers
+﻿@page "/login"
+@using Flugger.Controllers
+@using Flugger.Data
 @using Flugger.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject NavigationManager Navigation
 
 <div id="outer-login-container">
     <div id="login-container">
         <h1>Flugger</h1>
         <div id="inner-login-container">
             <label for="username">Brugernavn</label>
-            <input id="username" type="text" placeholder="Jens Hansen" />
+            <input @bind="Username" id="username" type="text" placeholder="Jens Hansen" />
             <label for="password">Kodeord</label>
-            <input id="password" type="password" placeholder="********" />
-            <button>Login</button>
+            <input @bind="Password" id="password" type="password" placeholder="********" />
+            <button @onclick="LoginUser">Login</button>
         </div>
     </div>
 </div>
 
 @code {
+    private string Username = "";
+    private string Password = "";
+    private string ErrorMessage = "";
 
+    private async Task LoginUser()
+    {
+        var user = await UserManager.FindByNameAsync(Username); // ✅ Find by username
+        if (user == null)
+        {
+            ErrorMessage = "User not found!";
+            Console.WriteLine("❌ User not found.");
+            return;
+        }
+
+        var result = await UserManager.CheckPasswordAsync(user, Password);
+        if (result == true)
+        {
+            Console.WriteLine($"✅ User {Username} successfully logged in!");
+            Navigation.NavigateTo("/");
+        }
+        else
+        {
+            ErrorMessage = "Invalid login!";
+            Console.WriteLine("❌ Login failed.");
+        }
+    }
 }

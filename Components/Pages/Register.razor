@@ -29,11 +29,10 @@
         var user = new ApplicationUser { UserName = registerModel.Username };
         var result = await UserManager.CreateAsync(user, registerModel.Password);
 
-        var httpContext = HttpContextAccessor.HttpContext;
-        if (httpContext != null && !httpContext.Response.HasStarted)
+        if (result.Succeeded)
         {
             await SignInManager.SignInAsync(user, isPersistent: false);
-            Navigation.NavigateTo("/", forceLoad: true);
+            Navigation.NavigateTo("/");
         }
     }
 

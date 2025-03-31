@@ -1,5 +1,6 @@
 using Flugger.Components;
 using Flugger.Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 
 namespace Flugger
@@ -10,15 +11,23 @@ namespace Flugger
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddIdentityCore<ApplicationUser>()
+            builder.Services.AddIdentityCore<ApplicationUser>(options =>
+            {
+                options.User.RequireUniqueEmail = false;
+            })
                 .AddUserStore<CustomUserStore>()
                 .AddSignInManager()
                 .AddDefaultTokenProviders();
 
-            builder.Services.AddAuthentication()
-            .AddIdentityCookies();
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+            {
+                options.LoginPath = "/login";
+                options.AccessDeniedPath = "/";
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+            });
             builder.Services.AddAuthorization();
-
             builder.Services.AddHttpContextAccessor();
 
             // Add services to the container.
@@ -35,10 +44,10 @@ namespace Flugger
                 app.UseHsts();
             }
 
+            app.UseHttpsRedirection();
+
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseHttpsRedirection();
 
             app.UseAntiforgery();
 
