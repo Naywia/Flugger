@@ -30,10 +30,6 @@
                     return IdentityResult.Failed(new IdentityError { Description = "Username, Email, and PasswordHash must not be null." });
                 }
 
-                // Hash the password before saving
-                //user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash);
-                Console.WriteLine(user.PasswordHash);
-
                 var cmd = new NpgsqlCommand(@"
             INSERT INTO users (username, email, password_hash, security_stamp, concurrency_stamp)
             VALUES (@username, @email, @password_hash, @stamp, @concurrency)", conn);
@@ -80,11 +76,6 @@
             return null;
         }
 
-        public async Task<bool> CheckPasswordAsync(ApplicationUser user, string password)
-        {
-            return BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
-        }
-
         public async Task SetPasswordHashAsync(ApplicationUser user, string passwordHash, CancellationToken cancellationToken)
         {
             user.PasswordHash = passwordHash;
@@ -92,6 +83,9 @@
 
         public Task<string> GetPasswordHashAsync(ApplicationUser user, CancellationToken cancellationToken)
         {
+            var hasher = new PasswordHasher<ApplicationUser>();
+            var result = hasher.VerifyHashedPassword(user, user.PasswordHash, "P@ssword123");
+            Console.WriteLine(result);
             return Task.FromResult(user.PasswordHash);
         }
 

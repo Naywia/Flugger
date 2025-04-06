@@ -34,8 +34,6 @@ namespace Flugger
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
 
-            builder.Services.AddSingleton<IPasswordHasher<ApplicationUser>, BcryptPasswordHasher<ApplicationUser>>();
-
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
