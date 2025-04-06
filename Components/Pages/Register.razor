@@ -31,8 +31,20 @@
 
         if (result.Succeeded)
         {
-            await SignInManager.SignInAsync(user, isPersistent: false);
-            Navigation.NavigateTo("/");
+            var loginResult = await UserManager.CheckPasswordAsync(user, registerModel.Password);
+            if (loginResult == true)
+            {
+                Console.WriteLine($"✅ User {registerModel.Username} successfully logged in!");
+                Navigation.NavigateTo("/");
+            }
+            else
+            {
+                Console.WriteLine("❌ Login failed.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("❌ Register failed.");
         }
     }
 

@@ -31,15 +31,16 @@
                 }
 
                 // Hash the password before saving
-                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash);
+                //user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash);
+                Console.WriteLine(user.PasswordHash);
 
                 var cmd = new NpgsqlCommand(@"
             INSERT INTO users (username, email, password_hash, security_stamp, concurrency_stamp)
-            VALUES (@username, @email, @password, @stamp, @concurrency)", conn);
+            VALUES (@username, @email, @password_hash, @stamp, @concurrency)", conn);
 
                 cmd.Parameters.AddWithValue("@username", user.UserName);
                 cmd.Parameters.AddWithValue("@email", user.Email ?? (object)DBNull.Value); // Ensure it's not null
-                cmd.Parameters.AddWithValue("@password", user.PasswordHash);
+                cmd.Parameters.AddWithValue("@password_hash", user.PasswordHash);
                 cmd.Parameters.AddWithValue("@stamp", user.SecurityStamp ?? "");
                 cmd.Parameters.AddWithValue("@concurrency", user.ConcurrencyStamp ?? "");
 
