@@ -5,22 +5,41 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject NavigationManager Navigation
 @inject IHttpContextAccessor HttpContextAccessor
+<PageTitle>Registrer bruger</PageTitle>
 
-<h3>Register</h3>
+<div id="outer-register-container">
+    <div id="register-container">
+        <h1>Registrer ny bruger</h1>
+        <div id="inner-register-container">
+            <EditForm Model="registerModel" OnValidSubmit="RegisterUser" id="test" style="display: flex; flex-direction: column;">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
 
-<EditForm Model="registerModel" OnValidSubmit="RegisterUser">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+                <label>Username:</label>
+                <InputText @bind-Value="registerModel.Username"
+                style="width: 50em;
+                       margin: 1em 0;
+                       padding: 10px;
+                       border: none;
+                       border-radius: 8px;
+                       background-color: #404040;
+                       color: #fff;" />
 
-    <label>Username:</label>
-    <InputText @bind-Value="registerModel.Username" />
+                <label>Password:</label>
+                <InputText @bind-Value="registerModel.Password" type="password"
+                style="width: 50em;
+                       margin: 1em 0;
+                       padding: 10px;
+                       border: none;
+                       border-radius: 8px;
+                       background-color: #404040;
+                       color: #fff;" />
 
-    <label>Password:</label>
-    <InputText @bind-Value="registerModel.Password" type="password" />
-
-    <button type="submit">Register</button>
-</EditForm>
-
+                <button type="submit">Register</button>
+            </EditForm>
+        </div>
+    </div>
+</div>
 @code {
     private RegisterModel registerModel = new RegisterModel();
 
