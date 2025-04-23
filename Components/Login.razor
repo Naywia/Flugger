@@ -11,11 +11,13 @@
     <div id="login-container">
         <h1>Flugger</h1>
         <div id="inner-login-container">
-            <label for="username">Brugernavn</label>
-            <input @bind="Username" id="username" type="text" placeholder="Jens Hansen" />
-            <label for="password">Kodeord</label>
-            <input @bind="Password" id="password" type="password" placeholder="********" />
-            <button @onclick="LoginUser">Login</button>
+            <form>
+                <label for="username">Brugernavn</label>
+                <input @bind="Username" id="username" type="text" placeholder="Jens Hansen" />
+                <label for="password">Kodeord</label>
+                <input @bind="Password" id="password" type="password" placeholder="********" />
+                <button @onclick="LoginUser">Login</button>
+            </form>
         </div>
     </div>
 </div>
@@ -46,6 +48,14 @@
         {
             ErrorMessage = "Invalid login!";
             Console.WriteLine("❌ Login failed.");
+        }
+    }
+
+    public async Task Enter(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+            await LoginUser();
         }
     }
 }

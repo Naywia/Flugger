@@ -23,15 +23,20 @@
     flex-direction: column;
 }
 
-    #inner-login-container input {
-        width: 50em;
-        margin: 1em 0;
-        padding: 10px;
-        border: none;
-        border-radius: 8px;
-        background-color: #404040;
-        color: #fff;
-    }
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    width: 50em;
+    margin: 1em 0;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: #404040;
+    color: #fff;
+}
 
 button {
     background-color: #068f68;

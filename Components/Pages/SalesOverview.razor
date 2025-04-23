@@ -5,36 +5,132 @@
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
 
-      function drawChart() {
+    function drawChart() {
 
-        var data = google.visualization.arrayToDataTable([
-          ['produkt-kategori', 'procent-del'],
-          ['Maling',     11],
-          ['Pensler',      2],
-          ['Lak',  5],
-          ['Værktøj', 4],
-        ]);
+      var data = google.visualization.arrayToDataTable([
+        ['produkt-kategori', 'procent-del'],
+        ['Maling',     11],
+        ['Pensler',      2],
+        ['Lak',  5],
+        ['Værktøj', 4],
+      ]);
 
-        var options = {
-          title: 'Procentvis salgs fordelling',
-          titleTextStyle: {
+      var options = {
+        title: 'Procentvis salgs fordelling',
+        titleTextStyle: {
+          color: 'white'
+        },
+        legend: {
+          position: 'bottom',
+          textStyle: {
             color: 'white'
-          },
-          legend: {
-            position: 'bottom', 
-            textStyle: {
-              color: 'white'
-            }
-          },
-          backgroundColor: '#252f62'
-        };
+          }
+        },
+        backgroundColor: '#252f62'
+      };
 
-        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+      var chart = new google.visualization.PieChart(document.getElementById('piechart'));
 
-        chart.draw(data, options);
-      }
+      chart.draw(data, options);
+    }
 </script>
-<div id="piechart" style="width: 100%; height: 500px;"></div>
+<div id="overview-main">
+    <h1>Omsætningsstatistik</h1>
+
+    <div id="piechart" style="margin: auto; width: 50%; height: 500px;"></div>
+
+    <div>
+    <div id="overview-top">
+        <div id="view-switch">
+            <input type="checkbox" id="toggle" class="toggleCheckbox" @onclick="SwitchView" />
+            <label for="toggle" class="toggleContainer">
+                <span><img src="/images/icons/table.svg" />Tabel</span>
+                <span><img src="/images/icons/grid.svg" />Gitter</span>
+            </label>
+        </div>
+    </div>
+    @if (view == true)
+    {
+        <div id="product-table-container">
+            <table class="product-table">
+                <tr class="product-table-header">
+                    @foreach (var property in typeof(Product).GetProperties())
+                    {
+                        <th>
+                            @if (!property.Name.Equals("ImagePath"))
+                            {
+                                @property.GetDanishName()
+                            }
+                        </th>
+                    }
+                    <th></th>
+                </tr>
+                @for (var i = 0; i < 5; i++)
+                {
+                    <tr>
+                        @foreach (var property in ProductController.GetProducts()[i].GetType().GetProperties())
+                        {
+                            <td>
+                                @if (property.Name.Equals("ImagePath"))
+                                {
+                                    <img class="product-img" src="@property.GetValue(ProductController.GetProducts()[i])" alt="" />
+                                }
+                                else
+                                {
+                                    @property.GetValue(ProductController.GetProducts()[i])
+                                }
+                            </td>
+                        }
+                        <td>
+                            <button>Bestil genopfyldning</button>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+    else
+    {
+        <div id="product-box-container">
+            @for (var i = 0; i < 5; i++)
+            {
+                <div class="product-box">
+                    <div>
+                        @foreach (var property in ProductController.GetProducts()[i].GetType().GetProperties())
+                        {
+                            @if (property.Name.Equals("ImagePath"))
+                            {
+                                <img class="product-img" src="@property.GetValue(ProductController.GetProducts()[i])" alt="" />
+                            }
+                        }
+                        <button>Bestil genopfyldning</button>
+                    </div>
+                    <div class="product-box-inner">
+                        @foreach (var property in ProductController.GetProducts()[i].GetType().GetProperties())
+                        {
+                            @if (!property.Name.Equals("ImagePath"))
+                            {
+                                <p>
+                                    <span>
+                                        @property.GetDanishName():
+                                    </span>
+                                    @property.GetValue(ProductController.GetProducts()[i])
+                                </p>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    </div>
+</div>
+
+@code {
+    private bool view = true;
+
+    private void SwitchView() => view = !view;
+}
