@@ -1,33 +1,52 @@
-﻿<div class="navbar-top">
+﻿@inject AuthStateService AuthState
+<div class="navbar-top">
     <a class="navbar-brand" href="">Flügger</a>
 </div>
 
 
 <nav class="nav">
-    <div class="nav-item">
-        <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-            Vareoversigt
-        </NavLink>
+    <div>
+        <div class="nav-item">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                Vareoversigt
+            </NavLink>
+        </div>
+        <div class="nav-item">
+            <NavLink class="nav-link" href="complaints">
+                Uoverensstemmelser
+            </NavLink>
+        </div>
+        <div class="nav-item">
+            <NavLink class="nav-link" href="projects">
+                Kundeprojekter
+            </NavLink>
+        </div>
+        <div class="nav-item">
+            <NavLink class="nav-link" href="customers">
+                Kunder
+            </NavLink>
+            <div class="inner-nav-item">
+                <NavLink class="nav-link" href="salesoverview">
+                    Salgsoversigt
+                </NavLink>
+            </div>
+        </div>
     </div>
-    <div class="nav-item">
-        <NavLink class="nav-link" href="complaints">
-            Uoverensstemmelser
-        </NavLink>
-    </div>
-    <div class="nav-item">
-        <NavLink class="nav-link" href="projects">
-            Kundeprojekter
-        </NavLink>
-    </div>
-    <div class="nav-item">
-        <NavLink class="nav-link" href="customers">
-            Kunder
-        </NavLink>
-        <div class="inner-nav-item">
-            <NavLink class="nav-link" href="salesoverview">
-                Salgsoversigt
+
+    <div>
+        <div class="nav-item">
+            <NavLink class="nav-link" href="register">
+                Registrer ny bruger
+            </NavLink>
+        </div>
+        <div class="nav-item">
+            <NavLink class="nav-link" @onclick="Logout">
+                Log ud
             </NavLink>
         </div>
     </div>
 </nav>
 
+@code {
+    private async Task Logout() => AuthState.SetLoggedIn(false);
+}

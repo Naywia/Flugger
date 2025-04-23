@@ -22,7 +22,7 @@
                 using var conn = new NpgsqlConnection(_connectionString);
                 await conn.OpenAsync(cancellationToken);
 
-                user.Email = user.UserName + "@ucl.Flugger.dk";
+                user.Email = user.UserName + "@ucl.flugger.dk";
 
                 // Ensure required properties are not null
                 if (string.IsNullOrEmpty(user.UserName) || string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.PasswordHash))

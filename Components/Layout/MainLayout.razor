@@ -1,13 +1,14 @@
 ﻿@inherits LayoutComponentBase
+@inject AuthStateService AuthState
 
 <div class="page">
-    @if (isLoggedIn)
+    @if (AuthState.IsLoggedIn)
     {
         <div class="sidebar">
             <NavMenu />
         </div>
 
-        <main>
+        <main class="main">
             @Body
         </main>
     }
@@ -26,5 +27,18 @@
 </div>
 
 @code {
-    bool isLoggedIn = true;
+    protected override void OnInitialized()
+    {
+        AuthState.OnChangeAsync += HandleAuthStateChanged;
+    }
+
+    private Task HandleAuthStateChanged()
+    {
+        return InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        AuthState.OnChangeAsync -= HandleAuthStateChanged;
+    }
 }

@@ -34,6 +34,9 @@ namespace Flugger
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
 
+            builder.Services.AddSingleton<AuthStateService>();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

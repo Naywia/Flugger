@@ -9,9 +9,18 @@ main {
     flex: 1;
 }
 
+.main {
+    margin-left: 250px;
+}
+
 .sidebar {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
     background-color: #068f68;
     color: white !important;
+    width: 250px;
+    height: 100vh;
 }
 
 .nav-link {
@@ -24,12 +33,12 @@ main {
         flex-direction: row;
     }
 
-    .sidebar {
+    /*.sidebar {
         width: 250px;
         height: 100vh;
         position: sticky;
         top: 0;
-    }
+    }*/
 
 }
 

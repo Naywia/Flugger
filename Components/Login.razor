@@ -1,11 +1,11 @@
-﻿@page "/login"
-@using Flugger.Controllers
+﻿@using Flugger.Controllers
 @using Flugger.Data
 @using Flugger.Models
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @inject NavigationManager Navigation
+@inject AuthStateService AuthState
 
 <div id="outer-login-container">
     <div id="login-container">
@@ -39,7 +39,8 @@
         if (result == true)
         {
             Console.WriteLine($"✅ User {Username} successfully logged in!");
-            Navigation.NavigateTo("/");
+            AuthState.SetLoggedIn(true);
+            // Navigation.NavigateTo("/");
         }
         else
         {
