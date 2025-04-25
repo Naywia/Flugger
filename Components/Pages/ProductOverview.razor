@@ -12,7 +12,7 @@
         </label>
     </div>
 
-    <input id="searchbar" type="search" placeholder="Søg" />
+    <input id="searchbar" type="search" placeholder="Søg" @oninput="OnSearchInput" />
 </div>
 
 @if (view == true)
@@ -31,7 +31,7 @@
                 }
                 <th></th>
             </tr>
-            @foreach (var product in ProductController.GetProducts())
+            @foreach (var product in Products)
             {
                 <tr>
                     @foreach (var property in product.GetType().GetProperties())
@@ -58,7 +58,7 @@
 else
 {
     <div id="product-box-container">
-        @foreach (var product in ProductController.GetProducts())
+        @foreach (var product in Products)
         {
             <div class="product-box">
                 <div>
@@ -94,4 +94,20 @@ else
     private bool view = true;
 
     private void SwitchView() => view = !view;
+
+    List<Product> Products = ProductController.GetProducts();
+
+    private string searchText = string.Empty;
+
+    private void OnSearchInput(ChangeEventArgs e)
+    {
+        string searchText = e.Value.ToString();
+
+        // Call your search method here and pass the searchText to it
+        Search(searchText);
+    }
+
+    private void Search(string searchText) {
+        Products = ProductController.GetProducts().Where(p => p.ItemNumber.ToString().ToLower().Contains(searchText.ToLower()) || p.Name.ToLower().Contains(searchText.ToLower())).ToList();
+    }
 }
